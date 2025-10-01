@@ -32,12 +32,19 @@ function App() {
     setConversation((chats) => [...chats, {
       user: chat,
       bot: reply,
-      date : new Date()
+      date : new Date(),
+      rating : 0,
+      feedback : ''
     }])
     navigate('/chat-section')
     console.log(conversation)
     setChat("")
+  }
 
+  const handleSaveChat = () => {
+    console.log('conversation', conversation)
+    setConversationHistory((chat) => [...chat, conversation])
+    navigate('/')
   }
 
   const clearConversation = () => {
@@ -59,7 +66,7 @@ function App() {
 
         <Routes>
           <Route path='/' element={<HomePage />} />
-          <Route path='/chat-history' element={<ChatHistory />} />
+          <Route path='/chat-history' element={<ChatHistory history={conversationHistory} />} />
           <Route path='/chat-section' element={<ChatSection conversation={conversation} />} />
         </Routes>
 
@@ -67,7 +74,7 @@ function App() {
           <div className='flex gap-2 absolute bottom-2 w-full right-1 left-1'>
             <input type="text" className='border-1 bg-white w-full p-2' placeholder='Enter your message' value={chat} onChange={(event) => setChat(event.target.value)} name="" id="" />
             <button className='button' onClick={handleAskQuestion}>Ask</button>
-            <button className='button'>Save</button>
+            <button className='button' onClick={handleSaveChat}>Save</button>
           </div>
         </div>
       </div>
