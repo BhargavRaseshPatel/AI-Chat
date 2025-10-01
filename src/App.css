@@ -13,11 +13,30 @@
 }
 
 .home-card h2 {
-  font-weight:700;
+  font-weight: 700;
   font-size: 18px;
 }
 
 .home-card p {
   margin-top: 12px;
   color: gray;
+}
+
+.chat-card {
+  display: flex;
+  gap: 24px;
+  background-color: #844af021;
+  border-radius: 16px;
+  align-items: flex-start;
+  padding-left: 16px;
+  padding: 12px;
+}
+
+.chat-card img {
+  width: 70px;
+  height: 70px;
+}
+
+.chat-card h1 {
+  font-weight: bolder;
 }

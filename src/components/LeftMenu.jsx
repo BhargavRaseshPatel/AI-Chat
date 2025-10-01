@@ -12,7 +12,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { MdMenu } from "react-icons/md";
-import ChatHistory from "./ChatHistory";
+import ChatHistory from "./PastConversation";
 
 
 export function LeftMenu() {
