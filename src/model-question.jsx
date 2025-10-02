@@ -1,3 +1,3 @@
 export const model = {
-    "How are you?" : "I am good."
+    "how are you?" : "I am good."
 }
