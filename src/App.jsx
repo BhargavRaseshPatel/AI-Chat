@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import { Route, Routes, useNavigate } from 'react-router-dom'
@@ -9,13 +9,14 @@ import HomePage from './components/HomePage'
 import ChatHistory from './components/ChatHistory'
 import ChatSection from './components/ChatSection'
 import { model } from './model-question'
+import { StoreContext } from './context/ChatContext'
 
 function App() {
   const [count, setCount] = useState(0)
-  const [conversation, setConversation] = useState([])
   const [conversationHistory, setConversationHistory] = useState([])
   const [chat, setChat] = useState("")
   const navigate = useNavigate()
+  const { addtheConversation, setConversation,saveConversationHistory } = useContext(StoreContext)
 
   const handleAskQuestion = () => {
     let reply = ""
@@ -26,24 +27,26 @@ function App() {
     if (model[chat]) {
       reply = model[chat]
     } else {
-      reply = "Sorry, I did not get your question"
+      reply = "Sorry, Did not understand your query!"
     }
 
-    setConversation((chats) => [...chats, {
+    const data = {
       user: chat,
       bot: reply,
-      date : new Date(),
-      rating : 0,
-      feedback : ''
-    }])
+      date: new Date(),
+      rating: '',
+      feedback: ''
+    }
+
+    addtheConversation(data)
     navigate('/chat-section')
-    console.log(conversation)
     setChat("")
   }
 
   const handleSaveChat = () => {
-    console.log('conversation', conversation)
-    setConversationHistory((chat) => [...chat, conversation])
+    // console.log('conversation', conversation)
+    // setConversationHistory((chat) => [...chat, conversation])
+    saveConversationHistory()
     navigate('/')
   }
 
@@ -55,7 +58,7 @@ function App() {
   return (
     <div className='flex h-screen'>
       <div className='w-[25vw] lg:block hidden'>
-        <PastConversation clearConversation={clearConversation}/>
+        <PastConversation  />
       </div>
 
       <div className='bg-[#ebe6f5] lg:w-[75vw] w-[100vw] p-4 pt-4  h-screen relative'>
@@ -66,13 +69,13 @@ function App() {
 
         <Routes>
           <Route path='/' element={<HomePage />} />
-          <Route path='/chat-history' element={<ChatHistory history={conversationHistory} />} />
-          <Route path='/chat-section' element={<ChatSection conversation={conversation} />} />
+          <Route path='/history' element={<ChatHistory />} />
+          <Route path='/chat-section' element={<ChatSection  />} />
         </Routes>
 
         <div>
           <div className='flex gap-2 absolute bottom-2 w-full right-1 left-1'>
-            <input type="text" className='border-1 bg-white w-full p-2' placeholder='Enter your message' value={chat} onChange={(event) => setChat(event.target.value)} name="" id="" />
+            <input type="text" className='border-1 bg-white w-full p-2' placeholder='Message Bot AI…' value={chat} onChange={(event) => setChat(event.target.value)} name="" id="" />
             <button className='button' onClick={handleAskQuestion}>Ask</button>
             <button className='button' onClick={handleSaveChat}>Save</button>
           </div>

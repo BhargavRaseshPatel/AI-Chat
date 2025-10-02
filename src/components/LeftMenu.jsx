@@ -12,12 +12,14 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { MdMenu } from "react-icons/md";
-import ChatHistory from "./PastConversation";
+import PastConversation from "./PastConversation";
+import { useState } from "react";
 
 
 export function LeftMenu() {
+    const [open ,setOpen] = useState(false)
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild className="lg:hidden flex justify-center items-center">
         <Button variant="outline"><MdMenu className='size-8 text-[#9785BA] ' /></Button>
       </SheetTrigger>
@@ -28,7 +30,7 @@ export function LeftMenu() {
             Make changes to your profile here. Click save when you&apos;re done.
           </SheetDescription>
         </SheetHeader> */}
-        <ChatHistory />
+        <PastConversation closeSheet={() => setOpen(false)}/>
       </SheetContent>
     </Sheet>
   )

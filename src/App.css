@@ -37,6 +37,15 @@
   height: 70px;
 }
 
-.chat-card h1 {
+.chat-card span {
   font-weight: bolder;
+}
+
+.chat-card-history {
+  display: flex;
+  gap: 24px;
+  border-radius: 16px;
+  align-items: flex-start;
+  padding-left: 16px;
+  padding: 12px;
 }
