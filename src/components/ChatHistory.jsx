@@ -19,7 +19,7 @@ const ChatHistory = () => {
                             <img src="src/assets/person.svg" alt="" />
                             <div>
                                 <h1>You</h1>
-                                <p>{chat.user}</p>
+                                <div>{chat.user}</div>
                                 <p className='text-sm mt-2 text-gray-500'>
                                     {new Date(chat.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}
                                 </p>

@@ -1,6 +1,4 @@
 import { useContext, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import { Route, Routes, useNavigate } from 'react-router-dom'
 import './App.css'
 import PastConversation from './components/PastConversation';
@@ -12,9 +10,7 @@ import { model } from './model-question'
 import { StoreContext } from './context/ChatContext'
 
 function App() {
-  const [count, setCount] = useState(0)
-  const [conversationHistory, setConversationHistory] = useState([])
-  const [chat, setChat] = useState("")
+  const [chat, setChat] = useState(localStorage.getItem("message") || "")
   const navigate = useNavigate()
   const { addtheConversation, setConversation, saveConversationHistory } = useContext(StoreContext)
 
@@ -26,8 +22,8 @@ function App() {
       return alert("Please enter the question in message box")
     }
 
-    if (model[chat.toLowerCase()]) {
-      reply = model[chat.toLowerCase()]
+    if (model[chat]) {
+      reply = model[chat]
     } else {
       reply = "Sorry, Did not understand your query!"
     }
@@ -43,6 +39,7 @@ function App() {
     addtheConversation(data)
     navigate('/chat-section')
     setChat("")
+    localStorage.setItem('message', "")
   }
 
   const handleSaveChat = () => {
@@ -57,17 +54,22 @@ function App() {
     setChat("")
   }
 
+  const handleMessage = (event) => {
+    setChat(event.target.value)
+    localStorage.setItem('message', event.target.value)
+  }
+
   return (
     <div className='flex h-screen'>
-      <div className='w-[25vw] lg:block hidden'>
-        <PastConversation />
+      <div className={`w-[25vw] ${process.env.NODE_ENV === 'test' ? 'block' : 'md:block hidden'}`}>
+        <PastConversation closeSheet={() => { }} />
       </div>
 
-      <div className='bg-[#ebe6f5] lg:w-[75vw] w-[100vw] p-4 pt-4  h-screen relative'>
-        <div className='flex items-center gap-2 ml-2'>
+      <div className='bg-[#ebe6f5] md:w-[75vw] w-[100vw] p-4 pt-4  h-screen relative'>
+        <header className='flex items-center gap-2 ml-2'>
           <LeftMenu />
-          <p className='text-[#9785BA] text-[28px] font-bold'>Bot AI</p>
-        </div>
+          <h1 className='text-[#9785BA] text-[28px] font-bold'>Bot AI</h1>
+        </header>
 
         <Routes>
           <Route path='/' element={<HomePage />} />
@@ -78,7 +80,8 @@ function App() {
         <div>
           <form onSubmit={handleAskQuestion}>
             <div className='flex gap-2 absolute bottom-2 w-full right-1 left-1'>
-              <input type="text" className='border-1 bg-white w-full p-2' placeholder='Message Bot AI…' value={chat} onChange={(event) => setChat(event.target.value)} name="" id="" />
+              <input type="text" className='border-1 bg-white w-full p-2'
+                placeholder='Message Bot AI...' value={chat} onChange={handleMessage} name="" id="" />
               <button type='submit' className='button' >Ask</button>
               <button type='button' className='button' onClick={handleSaveChat}>Save</button>
             </div>

@@ -20,7 +20,7 @@ export function LeftMenu() {
     const [open ,setOpen] = useState(false)
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger asChild className="lg:hidden flex justify-center items-center">
+      <SheetTrigger asChild className="md:hidden flex justify-center items-center">
         <Button variant="outline"><MdMenu className='size-8 text-[#9785BA] ' /></Button>
       </SheetTrigger>
       <SheetContent side="left">
